@@ -35,6 +35,24 @@ class BlogTestCase(TestCase):
         post = Post.objects.get(id=1)
         self.assertEqual(post.category, Category.objects.get(id=1))
 
+    def test_index(self):
+        c = Client()
+        response = c.get("/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_valid_post_page(self):
+        blogpost1 = Post.objects.get(id=1)
+
+        c = Client()
+        response = c.get("/post/1/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_invalid_post_page(self):
+        blogpost1 = Post.objects.get(id=1)
+
+        c = Client()
+        response = c.get("/post/3/")
+        self.assertEqual(response.status_code, 404)
 
 
 

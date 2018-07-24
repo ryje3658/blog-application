@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import RequestContext
 from django.core.mail import send_mail
 from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import datetime
@@ -20,7 +21,7 @@ def index(request):
     posts = paginator.get_page(page)
 
     context = {'posts': posts,
-    		   'title': 'Main Content'}
+    		   'title': 'Application'}
 
     return render(request, 'blog/index.html', context)
 
@@ -74,6 +75,7 @@ def post(request, pk):
 
 	"""Page for an individual blog post,
 	located using the post's primary key."""
+
 	try:
 		post = Post.objects.get(pk=pk)
 	except:
@@ -137,6 +139,9 @@ def archive(request):
 
 @login_required
 def createpost(request):
+
+	"""Allows user to create a post."""
+
 	form = CreatePostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 
@@ -159,17 +164,23 @@ def createpost(request):
 	return render(request, 'blog/create_post.html', context)
 
 def updatepost(request, pk=None):
+
+	"""Update an existing post. Method only
+	accesible by creator of post."""
 	
 	try:
 		instance = Post.objects.get(pk=pk)
 	except:
 		raise Http404("Sorry!")
 
-	form = CreatePostForm(request.POST or None, request.FILES or None, instance=instance)
-	if form.is_valid():
-		form.save()
-		messages.success(request, "Post updated!")
-		return render(request, 'blog/index.html')
+	if request.user == instance.author:
+		form = CreatePostForm(request.POST or None, request.FILES or None, instance=instance)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Post updated!")
+			return render(request, 'blog/index.html')
+	else:
+		raise PermissionDenied()
 
 	context = {
 		"form": form,
@@ -181,13 +192,16 @@ def updatepost(request, pk=None):
 
 def deletepost(request, pk):
 
+	"""Delete existing post. Method only
+	accessible by creator of post."""
+
 	post = Post.objects.get(pk=pk)
 
 	if request.user == post.author:
 		post.delete()
 		messages.success(request, "Post deleted!")
 	else:
-		messages.success(request, "No!")
+		raise PermissionDenied()
 
 	return render(request, 'blog/index.html')
 

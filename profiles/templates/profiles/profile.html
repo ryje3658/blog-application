@@ -7,10 +7,19 @@
 	<h4>Age: {{ user.profile.age|default_if_none:"" }}</h4>
 	<h4>Location: {{ user.profile.location_city }}, {{ user.profile.location_state|default_if_none:"" }}, {{ user.profile.location_country }}</h4>
 	<p>{{ user.profile.bio }}</p>
-	{% for post in user.posts %}
-	<h6>{{ post.title }}</h6>
-	<a href="/updatepost/{{post.pk}}">Update ME</a>
-    <a href="/deletepost/{{post.pk}}">Delete ME</a>
+</div>
+
+<div class="ml-3">
+	<button class="btn btn-ada-dark"><a href="/createpost">Create Post!</a></button>
+</div>
+
+<div id="profileCard" class="card col-6">
+	{% for post in user_posts %}
+	<div class="card">
+		<a href="/post/{{post.id}}"><h4>{{ post.title }} <span style="color:black">published</span> {{ post.created_at }}</h4></a>
+		<a style="color:green" href="/updatepost/{{post.pk}}">Update</a>
+	    <a style="color:red" href="/deletepost/{{post.pk}}">Delete</a>
+	</div>
     {% endfor %}
 </div>
 
