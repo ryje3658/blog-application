@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>CreatePost</h1>
+
+            <div class="row">
+              <div class="col-md-6 m-md-auto">
+                <form method="POST" enctype="multipart/form-data" action='{% url 'createpost' %}'>
+                    {% csrf_token %}
+                    {{ form.media }}
+                    {{ form.as_p }}
+                  <div align="center">
+                  <button type="submit" class="btn btn-ada-dark">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+
+{% endblock %}

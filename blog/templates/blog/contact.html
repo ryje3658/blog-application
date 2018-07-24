@@ -1,0 +1,42 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div id="single">
+      <div class="container">
+        <div class="post">
+          <div class="caption">
+            <div class="row contact-info">
+              <div class="col-md-4 text-center">
+              </div>
+            </div>
+
+            <div class="header">
+              <h1>Get in Touch</h1>
+            </div>
+            <div align="center" class="mb-4">
+              <h4>Drop a messaage below and I'll get back to you as soon as possible!</h4>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-6 m-md-auto">
+                <form method="POST" action='{% url 'contact' %}'>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                  <div align="center">
+                  <button type="submit" class="btn btn-ada-dark">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+{% endblock %}

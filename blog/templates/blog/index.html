@@ -1,0 +1,113 @@
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+
+
+{% for post in posts %}
+
+    <div id="posts" class="container">
+      <div class="row">
+        <section class="col-md-12 wow fadeIn">
+          <div class="post featured">
+            <div class="row">
+              <div class="col-md-6 media">
+                {% if post.image %}
+                <img src='{{ post.image.url }}' class="img-fluid"/>
+                {% endif %}
+              </div>
+              <div class="col-md-6 caption">
+                <span class="post-tag">{{ post.category }}</span>
+                <a href="/post/{{ post.id }}" class="post-title"><span>{{ post.title }}</span></a>
+                <span class="post-date">{{ post.created_at }}</span>
+                <p class="post-subtitle">{{ post.body|truncatewords:25|safe }}</p>
+                <a class="btn btn-ada-dark" href="/post/{{ post.id }}">Read full post</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+{% endfor %}
+
+<!-- Search Results -->
+
+{% for result in results %}
+
+
+    <div id="posts" class="container">
+      <div class="row">
+        <section class="col-md-12 wow fadeIn">
+          <div class="post featured">
+            <div class="row">
+              <div class="col-md-6 media">
+                {% if result.image %}
+                <img src='{{ result.image.url }}' class="img-fluid"/>
+                {% endif %}
+              </div>
+              <div class="col-md-6 caption">
+                <span class="post-tag">{{ result.category }}</span>
+                <a href="/post/{{ result.id }}" class="post-title"><span>{{ result.title }}</span></a>
+                <span class="post-date">{{ result.created_at }}</span>
+                <p class="post-subtitle">{{ result.body|truncatewords:25|safe }}</p>
+                <a class="btn btn-ada-dark" href="/post/{{ result.id }}">Read full post</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+{% endfor %}
+
+{% if posts %}
+
+<div class="container d-flex justify-content-center mb-5">
+  <div class="pagination">
+      <span class="step-links">
+          {% if posts.has_previous %}
+              <a href="?page=1"><button class="btn btn-ada-dark">first</button></a>
+              <a href="?page={{ posts.previous_page_number }}"><button class="btn btn-ada-dark">previous</button></a>
+          {% endif %}
+
+          {% if posts.paginator.num_pages > 1 %}
+          <span class="current">
+              <button class="btn btn-ada-light">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</button>
+          </span>
+          {% endif %}
+
+          {% if posts.has_next %}
+              <a href="?page={{ posts.next_page_number }}"><button class="btn btn-ada-dark">next</button></a>
+              <a href="?page={{ posts.paginator.num_pages }}"><button class="btn btn-ada-dark">last</button></a>
+          {% endif %}
+      </span>
+  </div>
+</div>
+
+{% endif %}
+
+{% if results %}
+
+<div class="container d-flex justify-content-center mb-5">
+  <div class="pagination">
+      <span class="step-links">
+          {% if results.has_previous %}
+              <a href="?page=1"><button class="btn btn-ada-dark">first</button></a>
+              <a href="?page={{ results.previous_page_number }}"><button class="btn btn-ada-dark">previous</button></a>
+          {% endif %}
+
+          <span class="current">
+              <button class="btn btn-ada-light">Page {{ results.number }} of {{ results.paginator.num_pages }}</button>
+          </span>
+
+          {% if results.has_next %}
+              <a href="?page={{ results.next_page_number }}"><button class="btn btn-ada-dark">next</button></a>
+              <a href="?page={{ results.paginator.num_pages }}"><button class="btn btn-ada-dark">last</button></a>
+          {% endif %}
+      </span>
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

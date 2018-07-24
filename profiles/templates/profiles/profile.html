@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<div id="profileCard" class="card col-6">
+	<h1 class="card-title">{{ user.username }}</h1>
+	<h4>Age: {{ user.profile.age|default_if_none:"" }}</h4>
+	<h4>Location: {{ user.profile.location_city }}, {{ user.profile.location_state|default_if_none:"" }}, {{ user.profile.location_country }}</h4>
+	<p>{{ user.profile.bio }}</p>
+	{% for post in user.posts %}
+	<h6>{{ post.title }}</h6>
+	<a href="/updatepost/{{post.pk}}">Update ME</a>
+    <a href="/deletepost/{{post.pk}}">Delete ME</a>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

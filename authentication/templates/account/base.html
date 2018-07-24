@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My blog.">
+    <meta name="author" content="Ryan Jensen">
+    <link rel="shortcut icon" href='{% static "favicon.png" %}'>
+
+    <title>Pizza</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,700italic,800,800italic,700,600italic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+
+    <!-- Vendor Styles -->
+    <link href='{% static "css/bootstrap.min.css" %}' rel="stylesheet">
+    <link href='{% static "css/font-awesome.min.css" %}' rel="stylesheet">
+    <link href='{% static "css/animate.css" %}' rel="stylesheet">
+
+    <!-- Theme Styles -->
+    <link href='{% static "css/ada.css" %}' rel="stylesheet">
+    <link href='{% static "css/ada-themes.css" %}' rel="stylesheet">
+
+  </head>
+
+  <body>
+
+<!-- Header -->
+
+    <div class="loading"></div>
+    
+        <nav class="navbar navbar-expand-lg navbar-light navbar-ada">
+  <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarsExample08">
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+             <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a></li>
+            {% else %}
+             <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
+             <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+    <!-- Flash Messages -->
+
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong align="center">{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+
+    <div id="footer">
+      <div id="links">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-2">
+              <p>&copy; Ryan Jensen</p>
+            </div>
+            <div class="col-sm-8">
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a id="scroll-to-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+
+    <!-- Vendor Scripts -->
+    <script src='{% static "js/jquery-3.2.1.min.js" %}'></script>
+    <script src='{% static "js/popper.min.js" %}'></script>
+    <script src='{% static "js/bootstrap.min.js" %}'></script>
+    <script src='{% static "js/wow.min.js" %}'></script>
+
+  </body>
+</html>

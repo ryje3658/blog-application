@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+    <div id="single">
+      <div class="container">
+        <div class="post">
+          {% if post.image %}
+          <img src='{{ post.image.url }}' class="img-fluid"/>
+          {% endif %}
+          <div class="caption">
+            <div class="header">
+              <span class="post-tag">{{ post.category }}</span>
+              <h1>{{ post.title }}</h1>
+              <h2>{{ post.author }}</h2>
+              <a href="/updatepost/{{post.pk}}">Update ME</a>
+              <a href="/deletepost/{{post.pk}}">Delete ME</a>
+              <br>
+              <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+            </div>
+            <p style="font-size:20px">{{ post.body|safe }}</p>
+          </div>
+          <div class="fb-comments d-flex justify-content-center" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Signup{% endblock %}
+
+{% block content %}
+
+<!-- Signup Card -->
+
+<div align="center">
+	<div class="card col-4 bg-dark text-white mt-3 mb-2">
+		<div class="card-body">
+			<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+			  {% csrf_token %}
+			  {{ form|crispy }}
+			  {% if redirect_field_value %}
+				  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+				  {% endif %}
+				  <button class="btn btn-success my-1" type="submit">Sign Up &raquo;</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!--Sign in Link
+
+<h4 align="center" class="card-text my-3">Already have an account?<a href="{{ login_url }}"> Sign In</a>.</h4>
+-->
+{% endblock %}
